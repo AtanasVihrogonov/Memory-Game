@@ -49,12 +49,17 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       name: 'pizza',
       img: 'images/pizza.png'
-    },
+    }
   ]
 
+  cardArray.sort(() => 0.5 - Math.random());
+
   const grid = document.querySelector('.grid');
-  let cardChosen = [];
-  let cardChosenId = [];
+  const resultDisplay = document.querySelector('#result');
+
+  let cardsChosen = [];
+  let cardsChosenId = [];
+  const cardsWon = [];
 
   // Create the board
   function createBoard() {
@@ -66,27 +71,50 @@ document.addEventListener('DOMContentLoaded', () => {
       card.setAttribute('data-id', i);
 
       // Add event listener for flipcard
-      //card.addEventListener('click', flipcard)
+      card.addEventListener('click', flipcard)
 
-      grid.appendChild(card)
+      grid.appendChild(card);
     }
   };
 
   // Check for matches
   function checkForMatch() {
     let cards = document.querySelectorAll('img');
+
+    const optionOneId = cardsChosenId[0];
+    const optionTwoId = cardsChosenId[1];
+
+    if (cardsChosen[0] === cardsChosen[1]) {
+      alert('You found a match');
+      cards[optionOneId].setAttribute('src', 'images/white.png');
+      cards[optionTwoId].setAttribute('src', 'images/white.png');
+      cardsWon.push(cardsChosen);
+    } else {
+      cards[optionOneId].setAttribute('src', 'images/blank.png');
+      cards[optionTwoId].setAttribute('src', 'images/blank.png');
+      alert('Sorry, try again!');
+    }
+
+    cardsChosen = [];
+    cardsChosenId = [];
+    resultDisplay.textContent = cardsWon.length;
+
+    if (cardsWon.length === cardArray.length / 2) {
+      resultDisplay.textContent = 'Congratulation! You found them all!';
+    }
   };
 
   // Flip the card
   function flipcard() {
     let cardId = this.getAttribute('data-id');
 
-    cardChosen.push(cardArray[cardId].name);
+    cardsChosen.push(cardArray[cardId].name);
 
-    cardChosenId.push(cardId);
+    cardsChosenId.push(cardId);
     this.setAttribute('src', cardArray[cardId].img);
+    
     // Check card chosen array
-    if (cardChosen.length === 2) {
+    if (cardsChosen.length === 2) {
       setTimeout(checkForMatch, 500);
     }
   };
