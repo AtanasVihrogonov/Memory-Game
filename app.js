@@ -53,6 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
   ]
 
   const grid = document.querySelector('.grid');
+  let cardChosen = [];
+  let cardChosenId = [];
 
   // Create the board
   function createBoard() {
@@ -68,14 +70,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
       grid.appendChild(card)
     }
-  }
+  };
 
   // Check for matches
+  function checkForMatch() {
+    let cards = document.querySelectorAll('img');
+  };
 
   // Flip the card
   function flipcard() {
-    
-  }
+    let cardId = this.getAttribute('data-id');
+
+    cardChosen.push(cardArray[cardId].name);
+
+    cardChosenId.push(cardId);
+    this.setAttribute('src', cardArray[cardId].img);
+    // Check card chosen array
+    if (cardChosen.length === 2) {
+      setTimeout(checkForMatch, 500);
+    }
+  };
 
   createBoard();
-})
+});
