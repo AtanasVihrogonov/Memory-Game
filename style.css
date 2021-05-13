@@ -1,6 +1,16 @@
+body {
+  background-color: #f3f3ec;
+}
+h3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .grid {
   display: flex;
   flex-wrap: wrap;
   height: 300px;
   width: 400px;
+  margin: 0 auto;
 }
+
